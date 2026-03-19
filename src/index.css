@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Small amount of custom styling for the “Future Forge” vibe. */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 20% 10%, rgba(168, 85, 247, 0.22), transparent 55%),
+    radial-gradient(1000px 700px at 80% 20%, rgba(34, 211, 238, 0.16), transparent 60%),
+    radial-gradient(900px 600px at 50% 95%, rgba(16, 185, 129, 0.12), transparent 60%),
+    #06070b;
+  color: #e5e7eb;
+}
+
+.ff-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+}
+
+.ff-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(closest-side at 50% 35%, rgba(0, 0, 0, 0.95), transparent 70%);
+}
+
+.ff-grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at 10% 0%,
+    rgba(244, 244, 245, 0.32),
+    transparent 50%
+  );
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* Aurora + scanline + clouds + globe texture for EPIC climate vibe */
+.ff-aurora {
+  background:
+    radial-gradient(900px 520px at 15% 20%, rgba(16, 185, 129, 0.35), transparent 60%),
+    radial-gradient(900px 560px at 85% 30%, rgba(34, 211, 238, 0.28), transparent 60%),
+    radial-gradient(900px 520px at 55% 90%, rgba(168, 85, 247, 0.22), transparent 65%),
+    linear-gradient(120deg, rgba(16, 185, 129, 0.08), rgba(34, 211, 238, 0.07), rgba(168, 85, 247, 0.06));
+  filter: blur(18px) saturate(1.25);
+  transform: translateZ(0);
+  animation: ffAurora 10s ease-in-out infinite alternate;
+}
+
+@keyframes ffAurora {
+  0% {
+    transform: translate3d(-10px, 0, 0) scale(1);
+    opacity: 0.78;
+  }
+  100% {
+    transform: translate3d(12px, -8px, 0) scale(1.03);
+    opacity: 0.92;
+  }
+}
+
+.ff-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.06) 0px,
+    rgba(255, 255, 255, 0.06) 1px,
+    transparent 2px,
+    transparent 6px
+  );
+  mix-blend-mode: overlay;
+  animation: ffScan 3.2s linear infinite;
+}
+
+@keyframes ffScan {
+  0% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(8px);
+  }
+}
+
+.ff-clouds {
+  background-image:
+    radial-gradient(700px 320px at 15% 25%, rgba(255, 255, 255, 0.06), transparent 60%),
+    radial-gradient(600px 280px at 55% 30%, rgba(255, 255, 255, 0.045), transparent 62%),
+    radial-gradient(760px 340px at 90% 40%, rgba(255, 255, 255, 0.05), transparent 62%),
+    radial-gradient(900px 420px at 30% 80%, rgba(255, 255, 255, 0.04), transparent 65%);
+  filter: blur(14px);
+  transform: translateZ(0);
+  animation: ffCloudDrift 18s ease-in-out infinite alternate;
+}
+
+@keyframes ffCloudDrift {
+  0% {
+    transform: translate3d(-14px, -6px, 0);
+  }
+  100% {
+    transform: translate3d(18px, 8px, 0);
+  }
+}
+
+.ff-globe-texture {
+  background-image:
+    radial-gradient(circle at 30% 35%, rgba(34, 211, 238, 0.18), transparent 45%),
+    radial-gradient(circle at 60% 50%, rgba(16, 185, 129, 0.22), transparent 48%),
+    radial-gradient(circle at 55% 70%, rgba(255, 255, 255, 0.10), transparent 55%),
+    repeating-linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.09) 0px,
+      rgba(255, 255, 255, 0.09) 1px,
+      transparent 2px,
+      transparent 10px
+    );
+  background-size: 120% 120%;
+  background-position: 0% 50%;
+  mask-image: radial-gradient(circle at 35% 30%, black 55%, transparent 78%);
+  mix-blend-mode: screen;
+}
