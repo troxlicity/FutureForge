@@ -218,73 +218,6 @@ function MagneticButton({ children, className, style, onClick, href, ...rest }: 
   )
 }
 
-// ─── Ticker ───────────────────────────────────────────────────────────────────
-const TICKER_ITEMS: string[] = [
-  'FUTUREFORGE 2026', '////', 'CLIMATE TECH', '////',
-  'LOCKIN × GENPLANET', '////', 'OPEN SIGNUP', '////',
-  'BUILD FOR THE BIOSPHERE', '////',
-]
-
-function Ticker() {
-  const doubled = [...TICKER_ITEMS, ...TICKER_ITEMS]
-  return (
-    <div className="overflow-hidden border-y border-[#d1fae5] py-3 select-none" aria-hidden>
-      <motion.div
-        className="flex gap-10 whitespace-nowrap"
-        animate={{ x: ['0%', '-50%'] }}
-        transition={{ duration: 30, ease: 'linear', repeat: Infinity }}
-      >
-        {doubled.map((item, i) => (
-          <span
-            key={i}
-            className="text-[11px] font-bold tracking-[0.22em] uppercase shrink-0"
-            style={{ color: item === '////' ? '#86efac' : '#166634' }}
-          >
-            {item}
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  )
-}
-
-// ─── Hover reveal row ─────────────────────────────────────────────────────────
-interface HoverLineProps {
-  label: string
-  value: string
-}
-
-function HoverLine({ label, value }: HoverLineProps) {
-  const [on, setOn] = useState(false)
-  return (
-    <motion.div
-      data-hover
-      className="group relative flex items-baseline justify-between py-4 border-b border-[#d1fae5] cursor-none overflow-hidden"
-      onMouseEnter={() => setOn(true)}
-      onMouseLeave={() => setOn(false)}
-    >
-      <motion.div
-        className="absolute inset-0 bg-[#14532d]"
-        initial={{ x: '-100%' }}
-        animate={{ x: on ? '0%' : '-100%' }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      />
-      <span
-        className="relative z-10 text-sm font-bold tracking-widest uppercase transition-colors duration-200"
-        style={{ color: on ? '#86efac' : '#14532d' }}
-      >
-        {label}
-      </span>
-      <span
-        className="relative z-10 text-sm font-mono transition-colors duration-200"
-        style={{ color: on ? '#d1fae5' : '#3f6212' }}
-      >
-        {value}
-      </span>
-    </motion.div>
-  )
-}
-
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [introDone, setIntroDone] = useState(false)
@@ -333,10 +266,10 @@ export default function App() {
 
       <main className="relative z-10">
 
-{/* ── HERO ── */}
+        {/* ── HERO ── */}
         <section id="mission" className="px-6 md:px-12 pt-16 md:pt-24 pb-4">
           <div className="mx-auto max-w-7xl grid md:grid-cols-[1fr_400px] gap-10 lg:gap-20 items-start">
- 
+
             {/* Left */}
             <div>
               <motion.div
@@ -346,10 +279,10 @@ export default function App() {
                 className="mb-7 inline-block border border-[#bbf7d0] px-3 py-1.5"
               >
                 <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#15803d]">
-                  26 – 28 April 2026
+                  11 – 18 April 2026
                 </span>
               </motion.div>
- 
+
               <motion.h1
                 initial={{ opacity: 0 }}
                 animate={introDone ? { opacity: 1 } : {}}
@@ -361,14 +294,14 @@ export default function App() {
                 <br />
                 <span className="text-[#15803d]">{line2}</span>
               </motion.h1>
- 
+
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={introDone ? { scaleX: 1 } : {}}
                 transition={{ duration: 0.7, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
                 className="my-8 h-px bg-[#bbf7d0] origin-left max-w-lg"
               />
- 
+
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={introDone ? { opacity: 1, y: 0 } : {}}
@@ -376,10 +309,9 @@ export default function App() {
                 className="max-w-sm text-[0.875rem] leading-[1.7] text-[#3f6212]"
                 style={{ fontFamily: '"DM Mono", monospace' }}
               >
-                One week.
-                One project that revolutionizes the environment using technology. Some awesome judges and prizes.
+                1 week. 1 project that uses tech to help the environment. And some awesome judeges & prizes.
               </motion.p>
- 
+
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={introDone ? { opacity: 1, y: 0 } : {}}
@@ -394,7 +326,7 @@ export default function App() {
                 </MagneticButton>
               </motion.div>
             </div>
- 
+
             {/* Right — signup */}
             <motion.div
               id="register"
@@ -421,8 +353,14 @@ export default function App() {
               <span className="text-[#bbf7d0]">×</span>
               <img src="/projectgenplanet.png" alt="" className="h-5" />
             </div>
-            <p className="text-[10px] tracking-[0.3em] uppercase text-[#0d9488]">
-              © {new Date().getFullYear()} FutureForge · Built for the Planet
+            <p className="text-[10px] tracking-[0.3em] uppercase text-[#86efac]">
+              © {new Date().getFullYear()} Future Forge · Built for the Planet
+            </p>
+            <p
+              className="text-[10px] tracking-[0.2em] uppercase text-[#3f6212]"
+              style={{ fontFamily: '"DM Mono", monospace' }}
+            >
+              72h · Climate Tech · 2026
             </p>
           </div>
         </footer>

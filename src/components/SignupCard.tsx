@@ -1,7 +1,6 @@
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { ArrowRight, Check, Loader2, TriangleAlert, User, Mail, Globe } from 'lucide-react'
-import { useState, useRef, useEffect } from 'react'
-import { supabase } from '../lib/supabaseClient'
+import { useState, useRef } from 'react'
 
 // ─── Timezone data ────────────────────────────────────────────────────────────
 const TIMEZONES = [
@@ -362,47 +361,36 @@ export function SignupCard() {
   async function submit() {
     setSubmitState('loading')
 
-    if (!supabase) {
-      setErrorMsg('Supabase not configured — add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.')
-      setSubmitState('error')
-      return
-    }
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-signup`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
+            timezone: TIMEZONES.find(t => t.label === tz)?.iana ?? tz,
+          }),
+        }
+      )
 
-    // ── Duplicate email check ──────────────────────────────────────────────
-    const { data: existing, error: checkError } = await supabase
-      .from('event_signups')
-      .select('email')
-      .eq('email', email.trim().toLowerCase())
-      .limit(1)
+      const data = await res.json()
 
-    if (checkError) {
-      setErrorMsg(checkError.message)
-      setSubmitState('error')
-      return
-    }
+      if (!res.ok) {
+        setErrorMsg(data.error ?? 'Something went wrong. Please try again.')
+        setSubmitState('error')
+        return
+      }
 
-    if (existing && existing.length > 0) {
-      setErrorMsg('This email is already registered. See you at FutureForge!')
-      setSubmitState('error')
-      return
-    }
-    // ──────────────────────────────────────────────────────────────────────
-
-    const sel = TIMEZONES.find(t => t.label === tz)
-
-    const { error } = await supabase.from('event_signups').insert({
-      name: name.trim(),
-      email: email.trim().toLowerCase(),
-      timezone: sel?.iana ?? tz,
-      event: 'Future Forge',
-      source: 'landing',
-    })
-
-    if (error) {
-      setErrorMsg(error.message)
-      setSubmitState('error')
-    } else {
       setSubmitState('success')
+    } catch {
+      setErrorMsg('Network error — please check your connection and try again.')
+      setSubmitState('error')
     }
   }
 
@@ -503,7 +491,7 @@ export function SignupCard() {
               className="mb-4"
             >
               <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-[#3f6212]">
-                Step {step + 1} of {STEPS.length}
+                Step {step + 1} of {STEPS.length} 
               </span>
             </motion.div>
           </AnimatePresence>
