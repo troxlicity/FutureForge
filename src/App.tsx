@@ -6,6 +6,7 @@ import {
   useSpring,
 } from 'framer-motion'
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import { SignupCard } from './components/SignupCard'
 import { CollabSection } from './components/CollabSection'
 import { IntroOverlay } from './components/IntroOverlay'
@@ -365,6 +366,7 @@ export default function App() {
           </div>
         </footer>
       </main>
+      <Analytics />
     </div>
   )
 }
